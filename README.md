@@ -36,6 +36,7 @@ end
 
 It will then include the server-timing header for how long it takes the app to send a response. Chrome should show something like this:
 
+![image](https://user-images.githubusercontent.com/1430443/37049000-2a4e20e0-2135-11e8-9fc1-dbc422e7860c.png)
 
 If you'd like to include timings for rendering Phoenix templates, add the `PlugServerTiming.PhoenixInstrumenter` to your Endpoint's instrumenters:
 
@@ -57,6 +58,6 @@ config :my_app, MyApp.Repo,
 
 With those included, Chrome server timing should look something like this:
 
-
+![image](https://user-images.githubusercontent.com/1430443/37049057-518cd480-2135-11e8-905c-d0a2bbb8143d.png)
 
 Special thank you goes to [@OleMchls](https://github.com/OleMchls) for writing up https://blog.dnsimple.com/2018/02/server-timing-with-phoenix/ and inspiring this package 💖
