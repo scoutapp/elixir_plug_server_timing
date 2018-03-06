@@ -4,7 +4,7 @@ defmodule PlugServerTimingTest do
   doctest PlugServerTiming
 
   defp call(conn, opts) do
-    PlugServerTiming.call(conn, PlugServerTiming.init(opts))
+    PlugServerTiming.Plug.call(conn, PlugServerTiming.Plug.init(opts))
   end
 
   test "sets server-timing header" do
@@ -14,6 +14,6 @@ defmodule PlugServerTimingTest do
 
     [timing] = get_resp_header(conn, "server-timing")
 
-    assert Regex.match?(~r/total;dur=\d+/, timing)
+    assert Regex.match?(~r/^total;dur=[\d\.]+$/, timing)
   end
 end

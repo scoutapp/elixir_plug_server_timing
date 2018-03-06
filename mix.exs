@@ -21,7 +21,7 @@ defmodule PlugServerTiming.MixProject do
 
   defp deps do
     [
-      {:plug, git: "git@github.com:elixir-plug/plug.git", branch: "master", override: true},
+      {:plug, "~> 1.4"},
       {:phoenix, "~> 1.3", optional: true},
       {:ex_doc, "~> 0.18.0", only: :dev, runtime: false}
     ]

@@ -16,20 +16,15 @@ defmodule PlugServerTiming.Plug do
       diff = System.convert_time_unit(stop - start, :native, :micro_seconds) / 1000
 
       conn
-      |> add_metrics()
-      |> prepend_resp_headers([{"server-timing", "total;dur=#{diff}"}])
+      |> put_resp_header("server-timing", "#{metrics_header()}total;dur=#{diff}")
     end)
   end
 
-  defp add_metrics(conn) do
-    timing_header_value =
-      PlugServerTiming.retrieve_and_clear_metrics()
-      |> Enum.reduce("", fn metric, acc ->
-        "#{acc},#{metric_to_header_value(metric)}"
-      end)
-      |> String.trim_trailing(",")
-
-    prepend_resp_headers(conn, [{"server-timing", timing_header_value}])
+  defp metrics_header do
+    PlugServerTiming.retrieve_and_clear_metrics()
+    |> Enum.reduce("", fn metric, acc ->
+      "#{acc}#{metric_to_header_value(metric)},"
+    end)
   end
 
   defp metric_to_header_value({name, nil, time}), do: ~s/#{name};dur=#{time}/
