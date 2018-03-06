@@ -9,22 +9,32 @@ defmodule PlugServerTiming.Plug do
   def init(opts), do: opts
 
   def call(conn, _opts) do
-    start = System.monotonic_time()
-
     register_before_send(conn, fn conn ->
-      stop = System.monotonic_time()
-      diff = System.convert_time_unit(stop - start, :native, :micro_seconds) / 1000
-
       conn
-      |> put_resp_header("server-timing", "#{metrics_header()}total;dur=#{diff}")
+      |> put_resp_header("server-timing", "#{metrics_header()}")
     end)
   end
 
   defp metrics_header do
-    PlugServerTiming.retrieve_and_clear_metrics()
-    |> Enum.reduce("", fn metric, acc ->
-      "#{acc}#{metric_to_header_value(metric)},"
-    end)
+    payload = ScoutApm.DevTrace.Store.payload()
+    total_time = Map.get(payload, :total_call_time)
+                 |> Kernel.*(1000)
+    inner_metrics = payload
+      |> Map.get(:metrics)
+      |> Enum.filter(fn metric ->
+        get_in(metric, [:key, :name]) == "all"
+      end)
+      |> Enum.reduce("", fn metric, acc ->
+        bucket = get_in(metric, [:key, :bucket])
+
+        total_call_time =
+          Map.get(metric, :total_exclusive_time)
+          |> Kernel.*(1000)
+
+        "#{acc}#{metric_to_header_value({bucket, nil, total_call_time})},"
+      end)
+
+    "#{inner_metrics}total;dur=#{total_time}"
   end
 
   defp metric_to_header_value({name, nil, time}), do: ~s/#{name};dur=#{time}/
