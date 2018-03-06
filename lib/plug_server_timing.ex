@@ -1,22 +1,16 @@
 defmodule PlugServerTiming do
-  @moduledoc """
-  Documentation for PlugServerTiming.
-  """
+  def record_metric(name, description, time) do
+    metrics = Process.get(:plug_server_timing_metrics, [])
+    Process.put(:plug_server_timing_metrics, [{name, description, time} | metrics])
+  end
 
-  @behaviour Plug
-  import Plug.Conn
+  def retrieve_and_clear_metrics do
+    case Process.delete(:plug_server_timing_metrics) do
+      metrics when is_list(metrics) ->
+        metrics
 
-  def init(opts), do: opts
-
-  def call(conn, _opts) do
-    start = System.monotonic_time()
-
-    register_before_send(conn, fn conn ->
-      stop = System.monotonic_time()
-      diff = System.convert_time_unit(stop - start, :native, :micro_seconds) / 1000
-
-      conn
-      |> prepend_resp_headers([{"server-timing", ~s|total;dur=#{diff}|}])
-    end)
+      _ ->
+        []
+    end
   end
 end

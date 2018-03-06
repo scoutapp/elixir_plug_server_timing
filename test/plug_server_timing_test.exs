@@ -8,8 +8,9 @@ defmodule PlugServerTimingTest do
   end
 
   test "sets server-timing header" do
-    conn = call(conn(:get, "/"), [])
-           |> send_resp(200, "")
+    conn =
+      call(conn(:get, "/"), [])
+      |> send_resp(200, "")
 
     [timing] = get_resp_header(conn, "server-timing")
 
