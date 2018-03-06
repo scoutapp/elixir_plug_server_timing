@@ -57,3 +57,6 @@ config :my_app, MyApp.Repo,
 
 With those included, Chrome server timing should look something like this:
 
+
+
+Special thank you goes to [@OleMchls](https://github.com/OleMchls) for writing up https://blog.dnsimple.com/2018/02/server-timing-with-phoenix/ and inspiring this package 💖
