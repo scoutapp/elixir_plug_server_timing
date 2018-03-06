@@ -8,7 +8,8 @@ defmodule PlugServerTiming.MixProject do
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      package: package()
+      package: package(),
+      description: "A package to include Server-Timing headers for Plug or Phoenix projects"
     ]
   end
 
