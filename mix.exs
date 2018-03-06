@@ -21,8 +21,7 @@ defmodule PlugServerTiming.MixProject do
 
   defp deps do
     [
-      {:plug, "~> 1.4"},
-      {:phoenix, "~> 1.3", optional: true},
+      {:scout_apm, "~> 0.4.0"},
       {:ex_doc, "~> 0.18.0", only: :dev, runtime: false}
     ]
   end
