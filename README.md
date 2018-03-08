@@ -83,7 +83,7 @@ To include Phoenix template rendering metrics, add the following your config:
 
 ### Additional instrumentation
 
-To instrument HTTPoision, MongoDB Ecto, and more see the [Scout docs](http://help.apm.scoutapp.com/#instrumenting-common-libraries).
+To instrument HTTPoison, MongoDB Ecto, and more see the [Scout docs](http://help.apm.scoutapp.com/#instrumenting-common-libraries).
 
 ### Custom instrumentation
 
