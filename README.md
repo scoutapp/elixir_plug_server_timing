@@ -14,7 +14,7 @@ Metrics are collected from the [scout_apm](https://github.com/scoutapp/scout_apm
 
 ## Installation
 
-To install and use PlugServerTiming, add it as a dependency in your Mixfile and enable devtrace for Scout:
+To install and use PlugServerTiming, add it as a dependency in your Mixfile:
 
 ```diff
 # mix.exs
@@ -24,14 +24,6 @@ To install and use PlugServerTiming, add it as a dependency in your Mixfile and 
 +     {:plug_server_timing, "~> 0.0.1"}
     ]
   end
-```
-
-## Configuration
-
-```diff
-# config/dev.exs
-+config :scout_apm,
-+ dev_trace: true
 ```
 
 ## Instrumentation

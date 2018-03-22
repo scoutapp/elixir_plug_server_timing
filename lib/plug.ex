@@ -16,7 +16,7 @@ defmodule PlugServerTiming.Plug do
   end
 
   defp metrics_header do
-    payload = ScoutApm.DevTrace.Store.payload()
+    payload = ScoutApm.DirectAnalysisStore.payload()
     total_time = Map.get(payload, :total_call_time)
                  |> Kernel.*(1000)
     inner_metrics = payload
