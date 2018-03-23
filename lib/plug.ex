@@ -9,6 +9,10 @@ defmodule PlugServerTiming.Plug do
   def init(opts), do: opts
 
   def call(conn, _opts) do
+    register_before_send_headers(conn)
+  end
+
+  def register_before_send_headers(conn) do
     register_before_send(conn, fn conn ->
       conn
       |> put_resp_header("server-timing", "#{metrics_header()}")
@@ -16,7 +20,7 @@ defmodule PlugServerTiming.Plug do
   end
 
   defp metrics_header do
-    payload = ScoutApm.DevTrace.Store.payload()
+    payload = ScoutApm.DirectAnalysisStore.payload()
     total_time = Map.get(payload, :total_call_time)
                  |> Kernel.*(1000)
     inner_metrics = payload

@@ -14,7 +14,7 @@ Metrics are collected from the [scout_apm](https://github.com/scoutapp/scout_apm
 
 ## Installation
 
-To install and use PlugServerTiming, add it as a dependency in your Mixfile and enable devtrace for Scout:
+To install and use PlugServerTiming, add it as a dependency in your Mixfile:
 
 ```diff
 # mix.exs
@@ -24,14 +24,6 @@ To install and use PlugServerTiming, add it as a dependency in your Mixfile and 
 +     {:plug_server_timing, "~> 0.0.1"}
     ]
   end
-```
-
-## Configuration
-
-```diff
-# config/dev.exs
-+config :scout_apm,
-+ dev_trace: true
 ```
 
 ## Instrumentation
@@ -83,11 +75,38 @@ To include Phoenix template rendering metrics, add the following your config:
 
 ### Additional instrumentation
 
-To instrument HTTPoision, MongoDB Ecto, and more see the [Scout docs](http://help.apm.scoutapp.com/#instrumenting-common-libraries).
+To instrument HTTPoison, MongoDB Ecto, and more see the [Scout docs](http://help.apm.scoutapp.com/#instrumenting-common-libraries).
 
 ### Custom instrumentation
 
 Collect performance data on additional function calls by adding custom instrumentation via `scout_apm`. [See the docs for instructions](http://help.apm.scoutapp.com/#elixir-custom-instrumentation).
+
+## Security
+
+If you'd like to conditionally include Server-Timing headers depending on authorization, the Plug can be included in a `Plug.Builder` pipeline or you can directly use `PlugServerTiming.Plug.register_before_send_headers/1` in an existing `Plug`.
+
+```elixir
+
+defmodule MyExistingAuthPlug do
+  @behaviour Plug
+  import Plug.Conn
+
+  def init(opts), do: opts
+
+  def call(conn, _opts) do
+    case AuthModule.verify_auth(conn) do
+      {:ok, :admin} ->
+        PlugServerTiming.Plug.register_before_send_headers(conn)
+      {:ok, :user} ->
+        conn
+      {:error, _} ->
+        conn
+        |> put_status(:unauthorized)
+        |> halt()
+    end
+  end
+end
+```
 
 ## Overhead
 
