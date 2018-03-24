@@ -120,4 +120,4 @@ The `scout_apm` package, a dependency of `plug_server_timing`, applies low overh
 
 Special thank you goes to [@OleMchls](https://github.com/OleMchls) for writing up https://blog.dnsimple.com/2018/02/server-timing-with-phoenix/ and inspiring this package 💖
 
-[Documentation](https://hexdocs.pm/plug_server_timing).
+[Documentation on HexDocs](https://hexdocs.pm/plug_server_timing).
