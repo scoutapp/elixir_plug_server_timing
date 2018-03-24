@@ -1,6 +1,6 @@
 # Server Timing Response Headers for Elixir / Phoenix
 
-Bring Phoenix server-side performance metrics 📈 to Chrome's Developer Tools (and other browsers that support the [Server Timing API](https://w3c.github.io/server-timing/)) via the `plug_server_timing` package. 
+Bring Phoenix server-side performance metrics 📈 to Chrome's Developer Tools (and other browsers that support the [Server Timing API](https://w3c.github.io/server-timing/)) via the `plug_server_timing` package. Production Safe™.
 
 Metrics are collected from the [scout_apm](https://github.com/scoutapp/scout_apm_elixir) package. A [Scout](https://scoutapp.com) account is not required.
 
