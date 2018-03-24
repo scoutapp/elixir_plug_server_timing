@@ -4,7 +4,7 @@ Bring Phoenix server-side performance metrics 📈 to Chrome's Developer Tools (
 
 Metrics are collected from the [scout_apm](https://github.com/scoutapp/scout_apm_elixir) package. A [Scout](https://scoutapp.com) account is not required.
 
-![image](https://user-images.githubusercontent.com/1430443/37060338-947833d2-2155-11e8-82c8-aaf6d1a9d8cb.png)
+![image](https://s3-us-west-1.amazonaws.com/scout-blog/elixir_server_timing.png)
 
 ## Browser Support
 
@@ -14,21 +14,37 @@ Metrics are collected from the [scout_apm](https://github.com/scoutapp/scout_apm
 
 ## Installation
 
-To install and use PlugServerTiming, add it as a dependency in your Mixfile:
+To install and use `PlugServerTiming`, add it as a dependency in your Mixfile:
 
 ```diff
 # mix.exs
   def deps do
     [
       # ...
-+     {:plug_server_timing, "~> 0.0.1"}
++     {:plug_server_timing, "~> 0.0.2"}
     ]
   end
 ```
 
+Add `PlugServerTiming.Plug` to your Plug pipeline: 
+
+```diff
+# lib/my_app_web/router.ex
+defmodule MyAppWeb.Router do
+  pipeline :browser do
+    # ...
++   plug PlugServerTiming.Plug
+  end
+end
+```
+
+Next, we need to instrument our app's function calls.
+
 ## Instrumentation
 
-Add Scout instrumentation to your Plug pipeline or Phoenix web module and Router:
+Performance metrics are collected via the `scout_apm` gem, which requires a couple of steps to instrument your app.
+
+__Instrument controllers:__
 
 ```diff
 # lib/my_app_web.ex
@@ -42,19 +58,9 @@ defmodule MyAppWeb do
     end
   end
 end
-
-# lib/my_app_web/router.ex
-defmodule MyAppWeb.Router do
-  pipeline :browser do
-    # ...
-+   plug PlugServerTiming.Plug
-  end
-end
 ```
 
-### Ecto
-
-If you'd like to include Ecto metrics, add `ScoutApm.Instruments.EctoLogger` to your Repo's loggers:
+__Instrument Ecto queries:__
 
 ```diff
 # config/dev.exs
@@ -62,9 +68,7 @@ If you'd like to include Ecto metrics, add `ScoutApm.Instruments.EctoLogger` to 
 + loggers: [{Ecto.LogEntry, :log, []}, {ScoutApm.Instruments.EctoLogger, :log, []}]
 ```
 
-### Template Rendering
-
-To include Phoenix template rendering metrics, add the following your config:
+__Instrument templates:__
 
 ```diff
 # config/dev.exs
