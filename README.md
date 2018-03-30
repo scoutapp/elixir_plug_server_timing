@@ -38,11 +38,11 @@ defmodule MyAppWeb.Router do
 end
 ```
 
-Whoa! We're not done yet ... we need to instrument our app's function calls.
+Whoa! __We're not done yet__ ... we need to instrument our app's function calls.
 
 ## Instrumentation
 
-Performance metrics are collected via the `scout_apm` gem, which requires a couple of steps to instrument your app.
+Performance metrics are collected via the `scout_apm` gem. There's just a couple of steps to instrument your app.
 
 __Instrument controllers:__
 
