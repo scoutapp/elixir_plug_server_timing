@@ -38,7 +38,7 @@ defmodule MyAppWeb.Router do
 end
 ```
 
-✋ Whoa! __We're not done yet__ ... we need to instrument our app's function calls.
+✋Whoa! __We're not done yet__ ... we need to instrument our app's function calls.
 
 ## Instrumentation
 
