@@ -4,7 +4,7 @@ defmodule PlugServerTiming.MixProject do
   def project do
     [
       app: :plug_server_timing,
-      version: "0.0.2",
+      version: "0.0.3",
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
